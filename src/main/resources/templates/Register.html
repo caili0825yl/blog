@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>用户注册</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        
+</head>
+<body>
+<div>
+    <label>用户名：</label>
+    <input type="text" placeholder="请输入用户名" id="username">
+</div>
+<div>
+    <label>密码：</label>
+    <input type="password" placeholder="请输入密码" id="password">
+</div>
+<div>
+    <label>确认密码：</label>
+    <input type="password" placeholder="请再次输入密码" id="repassword">
+</div>
+<button type="submit" id="register">确定</button>
+<script>
+$(function(){
+    $("#register").click(function(){
+        var username=$("#username").val();
+        var password=$("#password").val();
+        var repassword=$("#repassword").val();
+        if(username==null||username==""){
+            alert("用户名不能为空！");
+            return false;
+        }
+        if(password==null||password==""){
+            alert("密码不能为空！");
+            return false;
+        }
+        if(repassword==null||repassword==""){
+            alert("确认密码不能为空！");
+            return false;
+        }
+        if(password!=repassword){
+            alert("两次密码输入不相同！");
+            return false;
+        }
+        $.ajax({
+            type:"POST",
+            url:"http://localhost:8888/user/register",
+            data:{
+                "username":username,
+                "password":password
+            },
+            success:function(){
+                alert("注册成功！")
+                $(location).attr("href","http://localhost:8888/user/loginview") 
+                
+            }
+        });
+    });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>用户界面</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+</head>
+<body>
+    <div>
+<ul id="content">
+</ul>
+</div>
+<button id="write" type="button">写日志</button>
+<div>
+    <ul id="data">
+
+    </ul>
+</div>
+
+<script>
+    $(function(){
+        $("#write").click(function(){
+            $(location).attr("href","http://localhost:8888/blog/write")
+        })
+        $.ajax({
+            url:"http://localhost:8888/user/test",
+            success:function(data){
+                    $.each(data,function(i,val){
+                        var $li_new=$("<li>"+val+"</li>");
+                        $("#content").append($li_new);
+                    })
+            }
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>用户登录</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+</head>
+<body>
+<div>
+    <label>用户名：</label>
+    <input type="text" placeholder="请输入用户名" id="username">
+</div>
+<div>
+    <label>密码：</label>
+    <input type="password" placeholder="请输入密码" id="password">
+</div>
+<div>
+    <button type="submit" id="login">登录</button>
+    <button type="submit" id="register">注册</button>
+</div>
+<script>
+$(function(){
+    $("#login").click(function(){
+        var username=$("#username").val();
+        var password=$("#password").val();
+        if(username==""||username==null){
+            alert("用户名不能为空！");
+            return false;
+        }
+        if(password==""||password==null){
+            alert("密码不能为空！");
+            return false;
+        }
+        $.ajax({
+            type:"POST",
+            url:"http://localhost:8888/user/login",
+            data:{
+                "username":username,
+                "password":password
+            },
+            success:function(){
+                alert("登录成功！");
+                $(location).attr("href","http://localhost:8888/user/userblogview") 
+            }
+            
+            
+
+        });
+    });
+    $("#register").click(function(){
+        $(location).attr("href","http://localhost:8888/user/registerview") 
+    });
+});
+</script>
+</body>
+</html>
