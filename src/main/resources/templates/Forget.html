@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    <title>找回密码</title>
+</head>
+
+<body>
+    <form id="data" method="POST">
+        <div>
+            <label>请输入要找回的用户名：</label>
+        </div>
+        <input type="text" id="username" name="username">
+        <div>
+            <label>请输入注册时的手机号：</label>
+        </div>
+        <input type="text" id="tel" name="tel">
+    </form>
+    <button type="button" id="next">下一步</button>
+    <button type="button" id="back">返回</button>
+    <script>
+        $(function () {
+            $("#next").click(function () {
+                if ($("#username").val() == "" || $("#username").val().replace(/(^\s*)|(\s*$)/g, "") == "") {
+                    alert("用户名不能为空！");
+                    return false;
+                }
+                if ($("#tel").val() == "" || $("#tel").val().replace(/(^\s*)|(\s*$)/g, "") == "") {
+                    alert("手机号不能为空！");
+                    return false;
+                }
+
+                $.ajax({
+                    type: "POST",
+                    xhrFields: { withCredentials: true },
+
+                    data: $("#data").serialize(),
+                    url: "http://localhost:8888/user/check",
+                    success: function (data) {
+                        if (data == true) {
+                            $(location).attr("href", "http://localhost:8888/user/changepage")
+
+                        } else {
+                            alert("用户名或手机号错误！");
+                            return false;
+                        }
+                    }
+                })
+            })
+            $("#back").click(function () {
+                history.back();
+            })
+
+
+        })
+    </script>
+</body>
+
+</html>

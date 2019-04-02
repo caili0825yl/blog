@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>文章内容</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+</head>
+<body>
+    <div id="title">
+
+    </div>
+    <div id="content">
+    
+    </div>
+    <div>
+        <button id="back" type="button">返回</button>
+    </div>
+    <script>
+        function GetQueryString(name)
+    {
+         var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+         var r = window.location.search.substr(1).match(reg);
+         if(r!=null)return  unescape(r[2]); return null;
+    }   
+
+
+    $(function(){
+    var id=GetQueryString("id");
+   
+$("#back").click(function(){
+    history.back();
+})
+
+
+
+
+
+
+
+
+    
+    $.ajax({
+        url:"http://localhost:8888/blog/read?id="+id,
+        success:function(data){
+                var $title=$("<div id=\"new_title_text\"><h2>"+data.title+"</h2></div>");
+                var $content=$("<div id=\"new_title_content\">"+data.content+"</div>");
+                $title.replaceAll("#title");
+                $content.replaceAll("#content")
+
+        }
+    })
+})
+</script>
+</body>
+</html>

@@ -8,42 +8,66 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserServiceImp implements UserService {
     @Autowired(required = false)
     private UserDOMapper userDOMapper;
 
     @Override
-    public boolean login(String username, String password) {
+    public UserDO login(String username, String password) {
 
         UserDO userDO=userDOMapper.selectByUsernameAndPassword(username,password);
         if(userDO==null){
-            System.out.println("没有这个用户");
-            System.out.println("false");
-            return false;
+
+            return null;
         }else {
-            System.out.println("true");
-            return true;
+
+            return userDO;
         }
 
 
     }
 
     @Override
-    public void register(UserDO userDO) {
-        if(userDO==null){
+    public boolean  register(UserDO userDO) {
 
-        }
 
-if(StringUtils.isEmpty(userDO.getUsername())||StringUtils.isEmpty(userDO.getPassword())){
 
-        }
         try{
             userDOMapper.insert(userDO);
 
         }catch (DuplicateKeyException e){
-            e.printStackTrace();
+            return false;
         }
+        return true;
+    }
+
+    @Override
+    public UserDO check(String username, String tel) {
+        UserDO userDO=userDOMapper.selectByUsernameAndTel(username,tel);
+        if (userDO==null){
+            return null;
+        }else {
+            return userDO;
+        }
+    }
+
+    @Override
+    public void change(UserDO userDO) {
+        userDOMapper.updateById(userDO);
         return;
+    }
+
+    @Override
+    public UserDO getUser(String username) {
+        UserDO userDO=userDOMapper.selectByUsername(username);
+        if(userDO==null){
+            return null;
+        }else{
+            return userDO;
+        }
+
     }
 }

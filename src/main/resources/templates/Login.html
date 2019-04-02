@@ -7,51 +7,90 @@
 
 </head>
 <body>
+        <div>
+                <label>搜索博客</label>
+                <input type="text"  name="blog" placeholder="请输入用户名" id="blog">
+                <button id="search" type="button">搜索</button>
+            </div>
+
+    <form method="POST" id="form"  >
 <div>
     <label>用户名：</label>
-    <input type="text" placeholder="请输入用户名" id="username">
+    <input type="text" placeholder="请输入用户名" name="username" id="username">
 </div>
 <div>
     <label>密码：</label>
-    <input type="password" placeholder="请输入密码" id="password">
+    <input type="password" placeholder="请输入密码" name="password" id="password">
 </div>
+    </form>
 <div>
     <button type="submit" id="login">登录</button>
-    <button type="submit" id="register">注册</button>
+    <button type="button" id="register">注册</button>
 </div>
+<button type="button" id="forget">忘记密码？</button>
 <script>
 $(function(){
+    $("#search").click(function(){
+        $.ajax({
+            xhrFields:{withCredentials:true},
+
+            data:{
+                "search":$("#blog").val()
+            },
+            url:"http://localhost:8888/user/search",
+            success:function(data){
+              
+                if(data==false){
+                    alert("查无此用户");
+                }else{
+                    $(location).attr("href","http://localhost:8888/user/searchview")
+
+                }
+            }
+        })
+    })
+       
+    $("#forget").click(function(){
+        $(location).attr("href","http://localhost:8888/user/forget")
+
+    })   
     $("#login").click(function(){
         var username=$("#username").val();
         var password=$("#password").val();
-        if(username==""||username==null){
+        if(username.replace(/(^\s*)|(\s*$)/g, "") == "" ||username==""){
             alert("用户名不能为空！");
             return false;
         }
-        if(password==""||password==null){
+        if(password.replace(/(^\s*)|(\s*$)/g, "") == "" ||password==""){
             alert("密码不能为空！");
             return false;
         }
-        $.ajax({
+          $.ajax({
             type:"POST",
-            url:"http://localhost:8888/user/login",
-            data:{
-                "username":username,
-                "password":password
-            },
-            success:function(){
-                alert("登录成功！");
-                $(location).attr("href","http://localhost:8888/user/userblogview") 
-            }
-            
-            
+              xhrFields:{withCredentials:true},
 
-        });
-    });
+            url:"http://localhost:8888/user/login",
+            data:$("#form").serialize(),
+            success:function(data){
+                console.log(data);
+                if(data==true){
+                  alert("登录成功");
+                  $(location).attr("href","http://localhost:8888/user/userblogview") ;
+
+
+
+
+                }else{
+                    alert("用户名或密码错误");
+                    return false;
+                }
+            }
+        })
+    })
     $("#register").click(function(){
-        $(location).attr("href","http://localhost:8888/user/registerview") 
+        $(location).attr("href","http://localhost:8888/user/registerview")
     });
-});
+})
 </script>
 </body>
 </html>

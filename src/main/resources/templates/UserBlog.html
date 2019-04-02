@@ -13,6 +13,9 @@
 </div>
 <button id="write" type="button">写日志</button>
 <div>
+    </div>
+    <button id="quit" type="button">退出当前账号</button>
+    <div>
     <ul id="data">
 
     </ul>
@@ -23,13 +26,23 @@
         $("#write").click(function(){
             $(location).attr("href","http://localhost:8888/blog/write")
         })
+        $("#quit").click(function(){
+            $(location).attr("href","http://localhost:8888/blog/quit")
+            
+        })
+
         $.ajax({
-            url:"http://localhost:8888/user/test",
+            url:"http://localhost:8888/blog/getlist",
+            xhrFields:{withCredentials:true},
+
             success:function(data){
                     $.each(data,function(i,val){
-                        var $li_new=$("<li>"+val+"</li>");
+                        
+                        var $li_new=$("<a href=\"http://localhost:8888/blog/getcontent?id="+val.id+"\">"+"<li>"+val.title+"</li>"+"</a>");
                         $("#content").append($li_new);
-                    })
+                    }) 
+
+                   
             }
         });
     });

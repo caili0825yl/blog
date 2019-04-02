@@ -4,59 +4,92 @@
     <meta charset="UTF-8">
     <title>用户注册</title>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-        
+
 </head>
+
 <body>
-<div>
-    <label>用户名：</label>
-    <input type="text" placeholder="请输入用户名" id="username">
-</div>
-<div>
-    <label>密码：</label>
-    <input type="password" placeholder="请输入密码" id="password">
-</div>
-<div>
-    <label>确认密码：</label>
-    <input type="password" placeholder="请再次输入密码" id="repassword">
-</div>
-<button type="submit" id="register">确定</button>
-<script>
-$(function(){
-    $("#register").click(function(){
-        var username=$("#username").val();
-        var password=$("#password").val();
-        var repassword=$("#repassword").val();
-        if(username==null||username==""){
-            alert("用户名不能为空！");
-            return false;
-        }
-        if(password==null||password==""){
-            alert("密码不能为空！");
-            return false;
-        }
-        if(repassword==null||repassword==""){
-            alert("确认密码不能为空！");
-            return false;
-        }
-        if(password!=repassword){
-            alert("两次密码输入不相同！");
-            return false;
-        }
-        $.ajax({
-            type:"POST",
-            url:"http://localhost:8888/user/register",
-            data:{
-                "username":username,
-                "password":password
-            },
-            success:function(){
-                alert("注册成功！")
-                $(location).attr("href","http://localhost:8888/user/loginview") 
-                
-            }
+    <div>
+        <label>用户名：</label>
+        <input type="text" placeholder="请输入用户名" id="username">
+    </div>
+    <div>
+        <label>昵称：</label>
+        <input type="nickname" placeholder="请输入昵称" id="nickname">
+    </div>
+    <div>
+        <label>密码：</label>
+        <input type="password" placeholder="请输入密码" id="password">
+    </div>
+    <div>
+        <label>确认密码：</label>
+        <input type="password" placeholder="请再次输入密码" id="repassword">
+    </div>
+    <div>
+        <label>手机号：</label>
+        <input type="text" placeholder="请输入手机号" id="tel">
+    </div>
+    <button type="submit" id="register">确定</button>
+    <button type="button" id="back">返回</button>
+    <script>
+        $(function () {
+
+            $("#back").click(function () {
+                history.back();
+            })
+
+            $("#register").click(function () {
+                var username = $("#username").val();
+                var password = $("#password").val();
+                var repassword = $("#repassword").val();
+                var tel = $("#tel").val();
+                var nickname = $("#nickname").val();
+                if (username.replace(/(^\s*)|(\s*$)/g, "") == "" || username == "") {
+                    alert("用户名不能为空！");
+                    return false;
+                }
+                if (password.replace(/(^\s*)|(\s*$)/g, "") == "" || password == "") {
+                    alert("密码不能为空！");
+                    return false;
+                }
+                if (repassword.replace(/(^\s*)|(\s*$)/g, "") == "" || repassword == "") {
+                    alert("确认密码不能为空！");
+                    return false;
+                }
+                if (password != repassword) {
+                    alert("两次密码输入不相同！");
+                    return false;
+                }
+                if (tel.replace(/(^\s*)|(\s*$)/g, "") == "" || tel == "") {
+                    alert("手机号不能为空！");
+                    return false;
+                }
+                if (nickname.replace(/(^\s*)|(\s*$)/g, "") == "" || nickname == "") {
+                    alert("昵称不能为空！");
+                    return false;
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:8888/user/register",
+                    data: {
+                        "username": username,
+                        "password": password,
+                        "tel": tel,
+                        "nickname": nickname
+                    },
+                    success: function (data) {
+                        if (data == true) {
+                            alert("注册成功！")
+                            $(location).attr("href", "http://localhost:8888/user/loginview")
+                        } else {
+                            alert("用户名或手机号已存在！")
+                            return false;
+                        }
+
+                    }
+                });
+            });
         });
-    });
-});
-</script>
+    </script>
 </body>
+
 </html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>写日志</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+</head>
+<body>
+<form id="content" action="http://localhost:8888/blog/writecontent">
+<div>
+    <label>标题：</label>
+    <input type="text" id="title" size="100" name="title">
+</div>
+<div>
+        <label>内容：</label>
+
+    <textarea id="text" name="text" value></textarea>
+</div>
+<div>
+<button id="submit" type="submit">提交</button>
+</div>
+</form>
+<div>
+    <button id="back" type="button">返回</button>
+    </div>
+<script>
+$(function(){
+    $("#submit").click(function(){
+        var title=$("#title").val();
+        var content=$("#text").val();
+        if(title.replace(/(^\s*)|(\s*$)/g, "") == "" ||title==""){
+            alert("标题不能为空！");
+            return false;
+        }
+        if(content.replace(/(^\s*)|(\s*$)/g, "") == "" ||content==""){
+            alert("内容不能为空！");
+            return false;
+        }
+       
+    })
+
+
+    $("#back").click(function(){
+       history.back();
+    })
+})
+</script>
+</body>
+</html>

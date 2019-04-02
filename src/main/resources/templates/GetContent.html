@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>文章内容</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+</head>
+
+<body>
+    <div id="title">
+
+    </div>
+    <div id="content">
+
+    </div>
+
+    <div>
+        <button type="button" id="edit">编辑</button>
+    </div>
+    <div>
+        <button type="button" id="back">返回</button>
+    </div>
+    <div>
+        <button type="button" id="confirm">确定</button>
+    </div>
+    <div>
+        <button type="button" id="delete">删除</button>
+    </div>
+    <script>
+        function GetQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]); return null;
+        }
+        $(function () {
+            var id = GetQueryString("id");
+            $("#confirm").hide();
+            $("#edit").click(function () {
+                $("#edit").hide();
+                var title_text = $("#new_title_text").text();
+                var content_text = $("#new_title_content").text();
+                var $new_title = $("<input type=\"text\" id=\"new_title_text\" size=\"100\" name=\"new_title_text\" value=" + title_text + ">");
+                var $new_content = $("<textarea id=\"new_title_content\" name=\"new_title_content\">" + content_text + "</textarea>");
+                var $confirm = $(" <button type=\"button\" id=\"confirm\">确认</button>")
+                $new_title.replaceAll("#new_title_text");
+                $new_content.replaceAll("#new_title_content")
+                $("#confirm").show();
+
+
+            })
+            $("#back").click(function () {
+                history.back();
+            })
+
+
+            $("#delete").click(function () {
+                $.ajax({
+                    url: "http://localhost:8888/blog/delete",
+                    data: {
+
+                        "id": id
+                    },
+                    success: function (data) {
+                        if (data == true) {
+                            alert("删除成功");
+                            history.back();
+
+                        }
+                    }
+
+
+                }
+                )
+            }
+            )
+
+
+
+
+            $("#confirm").click(function () {
+                var title = $("#new_title_text").val();
+
+                var content = $("#new_title_content").val();
+
+                $.ajax({
+                    url: "http://localhost:8888/blog/edit",
+                    data: {
+                        "title": title,
+                        "content": content,
+                        "id": id
+                    },
+                    success: function (data) {
+                        if (data == true) {
+                            alert("修改成功");
+                            var $title = $("<div id=\"new_title_text\"><h2>" + title + "</h2></div>");
+                            var $edit = $(" <button type=\"button\" id=\"edit\">确认</button>")
+
+                            var $content = $("<div id=\"new_title_content\">" + content + "</div>");
+                            $title.replaceAll("#new_title_text");
+                            $content.replaceAll("#new_title_content");
+                            $("#edit").show();
+                            $("#confirm").hide();
+                        }
+
+                    }
+                })
+            })
+
+            $.ajax({
+                url: "http://localhost:8888/blog/read?id=" + id,
+                success: function (data) {
+                    var $title = $("<div id=\"new_title_text\"><h2>" + data.title + "</h2></div>");
+                    var $content = $("<div id=\"new_title_content\">" + data.content + "</div>");
+                    $title.replaceAll("#title");
+                    $content.replaceAll("#content")
+
+                }
+            })
+        })
+    </script>
+</body>
+
+</html>

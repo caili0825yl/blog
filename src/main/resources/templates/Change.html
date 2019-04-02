@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <title>重置密码</title>
+
+</head>
+
+<body>
+
+    <div>
+        <label>请输入密码：</label>
+    </div>
+    <input type="password" id="password" name="password">
+    <div>
+        <label>请确认密码：</label>
+    </div>
+    <input type="password" id="repassword" name="repassword">
+
+    <button type="button" id="confirm">确定</button>
+
+    <script>
+        $(function () {
+
+            $("#confirm").click(function () {
+                var password = $("#password").val();
+                var repassword = $("#repassword").val();
+                if (password.replace(/(^\s*)|(\s*$)/g, "") == "" || password == null) {
+                    alert("密码不能为空！");
+                    return false;
+                }
+                if (repassword.replace(/(^\s*)|(\s*$)/g, "") == "" || repassword == null) {
+                    alert("确认密码不能为空！");
+                    return false;
+                }
+
+                if (password != repassword) {
+                    alert("两次密码输入不相同！");
+                    return false;
+                }
+                $.ajax({
+                    type: "POST",
+                    xhrFields: { withCredentials: true },
+
+                    data: { "password": password },
+                    url: "http://localhost:8888/user/change",
+                    success: function () {
+                        alert("修改成功！");
+                        $(location).attr("href", "http://localhost:8888/user/loginpage")
+
+
+                    }
+                })
+            })
+
+
+
+        })
+    </script>
+
+</body>
+
+</html>

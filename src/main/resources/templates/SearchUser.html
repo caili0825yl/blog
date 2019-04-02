@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>搜索结果</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+</head>
+<body>
+    <div>
+        <ul id="user">
+        </ul>
+        </div>
+        <div>
+            <button id="back" type="button">返回</button>
+        </div>
+        <script>
+            $(function(){
+                $("#back").click(function(){
+    history.back();
+})
+   
+        
+                $.ajax({
+                    url:"http://localhost:8888/user/getuser",
+                    xhrFields:{withCredentials:true},
+        
+                    success:function(data){
+                            
+                                
+                                var $li_new=$("<a href=\"http://localhost:8888/blog/visitorblog?id="+data.id+"\">"+"<li>"+data.nickname+"</li>"+"</a>");
+                                $("#user").append($li_new);
+                           
+        
+                           
+                    }
+                });
+            });
+        </script>
+</body>
+</html>
