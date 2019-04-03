@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>编辑资料</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+</head>
+
+<body>
+    <div>
+        <form method="POST" id="form">
+            <div>
+                <span>昵称：</span>
+                <input type="text" id="nickname" name="nickname">
+            </div>
+            <div>
+                <span>个性签名：</span>
+                <input type="text" id="sign" name="sign">
+            </div>
+        </form>
+        <button id="edit">修改</button>
+    </div>
+
+
+
+    <script>
+
+        $(function () {
+
+
+            $.ajax({
+                url: "http://localhost:8888/user/getpersonal",
+                xhrFields: { withCredentials: true },
+
+                success: function (data) {
+                    var nickname=$("#nickname");
+                    var sign=$("#sign");
+                    nickname.val(data.nickname);
+                    sign.val(data.sign);
+
+                }
+            });
+        });
+
+        $("#edit").click(function(){
+            $.ajax({
+                url: "http://localhost:8888/user/edit",
+                data:$("#form").serialize(),
+                success: function () {
+                   alert("修改成功");
+                   $(location).attr("href", "http://localhost:8888/user/userblogview");
+                }
+            });
+        })
+    </script>
+</body>
+
+</html>

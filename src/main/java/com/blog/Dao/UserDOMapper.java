@@ -57,4 +57,5 @@ public interface UserDOMapper {
      */
     int updateByPrimaryKey(UserDO record);
     int updateById(UserDO record);
+    int updateDataById(UserDO record);
 }

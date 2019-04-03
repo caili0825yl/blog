@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface BlogService {
-   void  write(EssayDO essayDO);
-    EssayDO read(Long id);
-    List<EssayDO> getEssayList(String username);
-    void edit(EssayDO essayDO);
-    void delete(Long id);
+   void  write(EssayDO essayDO);//写日志
+    EssayDO read(Long id);//阅读日志
+    List<EssayDO> getEssayList(String username);//获取日志列表
+    void edit(EssayDO essayDO);//编辑日志
+    void delete(Long id);//删除日志
 }

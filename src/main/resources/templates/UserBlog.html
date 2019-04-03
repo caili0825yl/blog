@@ -6,46 +6,89 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
 </head>
+<style>
+.text{text-align:center;}
+</style>
 <body>
     <div>
-<ul id="content">
-</ul>
-</div>
-<button id="write" type="button">写日志</button>
-<div>
+        <div id="personal">
+
+        </div>
+        <ul id="content">
+        </ul>
+    </div>
+    <div id="editp">
+        </div>
+    <button id="write" type="button">写日志</button>
+    <div>
     </div>
     <button id="quit" type="button">退出当前账号</button>
     <div>
-    <ul id="data">
+        </div>
+    
 
-    </ul>
-</div>
+    <script>
+        function getlist() {
+            $("#edit").click(function () {
+                $(location).attr("href", "http://localhost:8888/user/editview")
 
-<script>
-    $(function(){
-        $("#write").click(function(){
-            $(location).attr("href","http://localhost:8888/blog/write")
-        })
-        $("#quit").click(function(){
-            $(location).attr("href","http://localhost:8888/blog/quit")
-            
-        })
+            })
 
-        $.ajax({
-            url:"http://localhost:8888/blog/getlist",
-            xhrFields:{withCredentials:true},
 
-            success:function(data){
-                    $.each(data,function(i,val){
-                        
-                        var $li_new=$("<a href=\"http://localhost:8888/blog/getcontent?id="+val.id+"\">"+"<li>"+val.title+"</li>"+"</a>");
+            $.ajax({
+                url: "http://localhost:8888/blog/getlist",
+                xhrFields: { withCredentials: true },
+
+                success: function (data) {
+                    $.each(data, function (i, val) {
+
+                        var $li_new = $("<a href=\"http://localhost:8888/blog/getcontent?id=" + val.id + "\">" + "<li>" + val.title + "</li>" + "</a>");
                         $("#content").append($li_new);
-                    }) 
+                    })
 
-                   
-            }
+
+                }
+            });
+        }
+
+
+        $(function () {
+            $("#write").click(function () {
+                $(location).attr("href", "http://localhost:8888/blog/write")
+            })
+            $("#quit").click(function () {
+                $(location).attr("href", "http://localhost:8888/blog/quit")
+
+            })
+
+
+
+            $.ajax({
+                url: "http://localhost:8888/user/getpersonal",
+                xhrFields: { withCredentials: true },
+
+                success: function (data) {
+
+
+                    var $nickname = $("<div><h1 class=\"text\">" + data.nickname + "的Blog" + "</h1></div>");
+                    var $sign = $("<div><h3 class=\"text\">" + data.sign + "</h3></div>");
+                    var $bt = $( "<button id=\"edit\" type=\"button\">编辑个人资料</button>");
+
+                    $("#personal").append($nickname);
+                    $("#personal").append($sign);
+                    $("#editp").append($bt);
+                    getlist();
+
+
+
+                }
+            });
+
+            
+
+
         });
-    });
-</script>
+    </script>
 </body>
+
 </html>

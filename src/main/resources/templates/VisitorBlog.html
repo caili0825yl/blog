@@ -6,20 +6,23 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
 </head>
+<style>
+        .text{text-align:center;}
+        </style>
 <body>
+    
+        <div id="personal">
+
+            </div>
     <div>
         <ul id="content">
         </ul>
         </div>
-        <ul id="data">
-
-        </ul>
-       
+        
+        <button id="back">返回</button>
         <script>
-            $(function(){
-               
-               
-                $.ajax({
+function getlist(){
+    $.ajax({
                     url:"http://localhost:8888/blog/visitorgetlist",
                     xhrFields:{withCredentials:true},
         
@@ -33,6 +36,35 @@
                            
                     }
                 });
+}
+
+            $(function(){
+               $("#back").click(function(){
+                $(location).attr("href", "http://localhost:8888")
+
+               }
+                )
+               
+            $.ajax({
+                url: "http://localhost:8888/user/getuser",
+                xhrFields: { withCredentials: true },
+
+                success: function (data) {
+
+
+                    var $nickname = $("<div><h1 class=\"text\">" + data.nickname + "的Blog" + "</h1></div>");
+                    var $sign = $("<div><h3 class=\"text\">" + data.sign + "</h3></div>");
+                    console.log(data.sign)
+                    $("#personal").append($nickname);
+                    $("#personal").append($sign);
+                  
+                    getlist();
+
+
+
+                }
+            });
+               
             });
         </script>
 </body>

@@ -3,23 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <link href="/css/background.css" rel="stylesheet" type="text/css" />
 
     <title>找回密码</title>
 </head>
 
 <body>
-    <form id="data" method="POST">
-        <div>
-            <label>请输入要找回的用户名：</label>
+    <div id="content">
+    <form id="data" method="POST" class="login-input-box">
+        <div class="login-input-box">
+            <span>请输入要找回的用户名：</span>
+            <input type="text" id="username" name="username">
+
         </div>
-        <input type="text" id="username" name="username">
-        <div>
-            <label>请输入注册时的手机号：</label>
+        <div class="login-input-box">
+            <span>请输入注册时的手机号：</span>
+            <input type="text" id="tel" name="tel">
+
         </div>
-        <input type="text" id="tel" name="tel">
     </form>
-    <button type="button" id="next">下一步</button>
-    <button type="button" id="back">返回</button>
+    <div class="login-button-box">
+
+    <button type="button" id="next" class="login-button-box">下一步</button>
+</div>
+<div class="login-button-box">
+
+    <button type="button" id="back" class="login-button-box">返回</button>
+</div>
+</div>
     <script>
         $(function () {
             $("#next").click(function () {

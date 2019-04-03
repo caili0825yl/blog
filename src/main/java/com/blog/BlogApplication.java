@@ -11,7 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @MapperScan("com.blog.Dao")
 public class BlogApplication {
 
+@RequestMapping("/")
 
+public String start(){
+    return "Login";
+}
     public static void main(String[] args) {
         SpringApplication.run(BlogApplication.class, args);
     }

@@ -25,7 +25,7 @@ public class BlogController {
 @Autowired
 private HttpSession httpSession;
     @ResponseBody
-    @RequestMapping("/getlist")
+    @RequestMapping("/getlist")  //用户获取日志列表
     public List<EssayDO> getList() {
         List<EssayDO> essayList=blogService.getEssayList(((UserVO)httpSession.getAttribute("USER")).getUsername());
 
@@ -33,13 +33,13 @@ private HttpSession httpSession;
 }
 
     @ResponseBody
-    @RequestMapping("/visitorgetlist")
+    @RequestMapping("/visitorgetlist") //游客获取日志列表
     public List<EssayDO> visitorGetList() {
         List<EssayDO> essayList=blogService.getEssayList(((String)httpSession.getAttribute("search")));
 
         return essayList;
     }
-@RequestMapping("/writecontent")
+@RequestMapping("/writecontent") //写日志
     public String writecontent(@RequestParam(name = "title") String title,@RequestParam(name = "text") String text){
         EssayDO essayDO=new EssayDO();
         essayDO.setTitle(title);
@@ -48,39 +48,39 @@ private HttpSession httpSession;
         blogService.write(essayDO);
         return "UserBlog";
 }
-    @RequestMapping("/myblog")
+    @RequestMapping("/myblog") //跳转页面
     public String myBlog(){
 
         return "UserBlog";
     }
-    @RequestMapping("/write")
+    @RequestMapping("/write") //跳转页面
     public String write(){
 
         return "WriteContent";
     }
 @ResponseBody
-@RequestMapping("/read")
+@RequestMapping("/read") //阅读日志
     public EssayDO read(@RequestParam(name = "id") Long id){
     EssayDO  essayDO=blogService.read(id);
     return essayDO;
 }
-    @RequestMapping("/visitorblog")
+    @RequestMapping("/visitorblog") //游客浏览博客
     public String visitorBlog(@RequestParam(name = "id") Long id){
 
         return "VisitorBlog";
     }
-    @RequestMapping("/getcontent")
+    @RequestMapping("/getcontent") //跳转页面
     public String getcontent(@RequestParam(name = "id") Long id){
 
         return "GetContent";
     }
-    @RequestMapping("/visitorgetcontent")
+    @RequestMapping("/visitorgetcontent") //跳转页面
     public String visitorGetContent(@RequestParam(name = "id") Long id){
 
         return "VisitorGetContent";
     }
     @ResponseBody
-    @RequestMapping("/edit")
+    @RequestMapping("/edit") //编辑日志
     public boolean edit(@RequestParam(name = "id") Long id,@RequestParam(name = "title") String title,@RequestParam(name = "content") String content){
         EssayDO essayDO=new EssayDO();
         essayDO.setId(id);
@@ -91,14 +91,14 @@ private HttpSession httpSession;
     }
 
     @ResponseBody
-    @RequestMapping("/delete")
+    @RequestMapping("/delete") //删除日志
     public boolean delete(@RequestParam(name = "id") Long id){
         EssayDO essayDO=new EssayDO();
 
         blogService.delete(id);
         return true;
     }
-    @RequestMapping("/quit")
+    @RequestMapping("/quit") //退出账号
     public String quit(){
         httpSession.invalidate();
         return "Login";

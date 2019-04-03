@@ -4,93 +4,117 @@
     <meta charset="UTF-8">
     <title>用户登录</title>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-
+    <link href="/css/background.css" rel="stylesheet" type="text/css" />
 </head>
+
 <body>
-        <div>
-                <label>搜索博客</label>
-                <input type="text"  name="blog" placeholder="请输入用户名" id="blog">
-                <button id="search" type="button">搜索</button>
+<div id="searchcontent">
+<div class="center">
+<input type="text" name="blog" placeholder="请输入用户名" id="blog">
+<button id="search" type="button">搜索博客</button>
+</div>
+</div>
+    <div id="content">
+        <div class="login-header">
+            <h3 class="text">用户登录</h3>
+        
             </div>
 
-    <form method="POST" id="form"  >
-<div>
-    <label>用户名：</label>
-    <input type="text" placeholder="请输入用户名" name="username" id="username">
-</div>
-<div>
-    <label>密码：</label>
-    <input type="password" placeholder="请输入密码" name="password" id="password">
-</div>
-    </form>
-<div>
-    <button type="submit" id="login">登录</button>
-    <button type="button" id="register">注册</button>
-</div>
-<button type="button" id="forget">忘记密码？</button>
-<script>
-$(function(){
-    $("#search").click(function(){
-        $.ajax({
-            xhrFields:{withCredentials:true},
+        
+        <form method="POST" id="form" class="login-input-box">
+           
+                
+                <div class="login-input-box">
+                    <span >用户名：</span>
+                    <input type="text" placeholder="请输入用户名" name="username" id="username">
+                </div>
+                <div class="login-input-box">
+                    <span >&nbsp&nbsp密码：</span>
+                    <input type="password" placeholder="请输入密码" name="password" id="password">
+                </div>
+           
+        </form>
+        <div class="login-button-box">
+            <button type="submit" id="login" class="login-button-box">登录</button>
+           
+        </div>
+        <div class="login-button-box">
+        
+            <button type="button" id="register" class="login-button-box">注册</button>
+        </div>
+            <div class="logon-box">
+            <a href="http://localhost:8888/user/forget">忘记密码？</a>
 
-            data:{
-                "search":$("#blog").val()
-            },
-            url:"http://localhost:8888/user/search",
-            success:function(data){
-              
-                if(data==false){
-                    alert("查无此用户");
-                }else{
-                    $(location).attr("href","http://localhost:8888/user/searchview")
+        </div>
+    </div>
+    </div>
+    <script>
+        $(function () {
+            $("#search").click(function () {
+                var search = $("#blog").val();
 
-                }
-            }
-        })
-    })
-       
-    $("#forget").click(function(){
-        $(location).attr("href","http://localhost:8888/user/forget")
-
-    })   
-    $("#login").click(function(){
-        var username=$("#username").val();
-        var password=$("#password").val();
-        if(username.replace(/(^\s*)|(\s*$)/g, "") == "" ||username==""){
-            alert("用户名不能为空！");
-            return false;
-        }
-        if(password.replace(/(^\s*)|(\s*$)/g, "") == "" ||password==""){
-            alert("密码不能为空！");
-            return false;
-        }
-          $.ajax({
-            type:"POST",
-              xhrFields:{withCredentials:true},
-
-            url:"http://localhost:8888/user/login",
-            data:$("#form").serialize(),
-            success:function(data){
-                console.log(data);
-                if(data==true){
-                  alert("登录成功");
-                  $(location).attr("href","http://localhost:8888/user/userblogview") ;
-
-
-
-
-                }else{
-                    alert("用户名或密码错误");
+                if (search.replace(/(^\s*)|(\s*$)/g, "") == "" || search == "") {
+                    alert("请输入用户名！");
                     return false;
                 }
-            }
+                $.ajax({
+                    xhrFields: { withCredentials: true },
+
+                    data: {
+                        "search": $("#blog").val()
+                    },
+                    url: "http://localhost:8888/user/search",
+                    success: function (data) {
+
+                        if (data == false) {
+                            alert("查无此用户");
+                        } else {
+                            $(location).attr("href", "http://localhost:8888/user/searchview")
+
+                        }
+                    }
+                })
+            })
+
+         
+            $("#login").click(function () {
+                var username = $("#username").val();
+                var password = $("#password").val();
+                if (username.replace(/(^\s*)|(\s*$)/g, "") == "" || username == "") {
+                    alert("用户名不能为空！");
+                    return false;
+                }
+                if (password.replace(/(^\s*)|(\s*$)/g, "") == "" || password == "") {
+                    alert("密码不能为空！");
+                    return false;
+                }
+                $.ajax({
+                    type: "POST",
+                    xhrFields: { withCredentials: true },
+
+                    url: "http://localhost:8888/user/login",
+                    data: $("#form").serialize(),
+                    success: function (data) {
+                        console.log(data);
+                        if (data == true) {
+                            alert("登录成功");
+                            $(location).attr("href", "http://localhost:8888/user/userblogview");
+
+
+
+
+                        } else {
+                            alert("用户名或密码错误");
+                            return false;
+                        }
+                    }
+                })
+            })
+            $("#register").click(function () {
+                $(location).attr("href", "http://localhost:8888/user/registerview")
+            });
         })
-    })
-    $("#register").click(function(){
-        $(location).attr("href","http://localhost:8888/user/registerview")
-    });
-})
-</script>
+    </script>
 </body>
+
 </html>

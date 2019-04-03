@@ -70,4 +70,10 @@ public class UserServiceImp implements UserService {
         }
 
     }
+
+    @Override
+    public void editData(UserDO userDO) {
+        userDOMapper.updateDataById(userDO);
+        return;
+    }
 }

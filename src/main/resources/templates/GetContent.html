@@ -4,28 +4,37 @@
     <meta charset="UTF-8">
     <title>文章内容</title>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
 </head>
 
+
 <body>
-    <div id="title">
+   
+                <div >
+                    <div id="new_title_text" >
+                        </div>
+                    
+                    <div id="new_title_content" >
 
-    </div>
-    <div id="content">
+                    </div>
+                
+                    <div >
+                        <div>
+                            <button type="button" id="edit">编辑</button>
+                        </div>
 
-    </div>
-
-    <div>
-        <button type="button" id="edit">编辑</button>
-    </div>
-    <div>
-        <button type="button" id="back">返回</button>
-    </div>
-    <div>
-        <button type="button" id="confirm">确定</button>
-    </div>
-    <div>
-        <button type="button" id="delete">删除</button>
-    </div>
+                        <div>
+                            <button type="button" id="confirm">确定</button>
+                        </div>
+                        <div>
+                            <button type="button" id="delete">删除</button>
+                        </div>
+                        <div>
+                            <button type="button" id="back">返回</button>
+                        </div>
+                    </div>
+                </div>
+         
     <script>
         function GetQueryString(name) {
             var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
@@ -39,11 +48,12 @@
                 $("#edit").hide();
                 var title_text = $("#new_title_text").text();
                 var content_text = $("#new_title_content").text();
-                var $new_title = $("<input type=\"text\" id=\"new_title_text\" size=\"100\" name=\"new_title_text\" value=" + title_text + ">");
-                var $new_content = $("<textarea id=\"new_title_content\" name=\"new_title_content\">" + content_text + "</textarea>");
+                var $new_title = $("<div><input type=\"text\" id=\"new_title_text\" size=\"100\" name=\"new_title_text\" value=" + title_text + "></div>");
+                var $new_content = $("<div><textarea  style=\"resize:none;\" cols=100 rows=20 id=\"new_title_content\" name=\"new_title_content\">" + content_text + "</textarea></div>");
                 var $confirm = $(" <button type=\"button\" id=\"confirm\">确认</button>")
                 $new_title.replaceAll("#new_title_text");
                 $new_content.replaceAll("#new_title_content")
+                
                 $("#confirm").show();
 
 
@@ -54,6 +64,9 @@
 
 
             $("#delete").click(function () {
+                var message=confirm("确定要删除吗？");
+                if(message==true){
+
                 $.ajax({
                     url: "http://localhost:8888/blog/delete",
                     data: {
@@ -71,6 +84,9 @@
 
                 }
                 )
+                }else{
+                    return false;
+                }
             }
             )
 
@@ -111,8 +127,8 @@
                 success: function (data) {
                     var $title = $("<div id=\"new_title_text\"><h2>" + data.title + "</h2></div>");
                     var $content = $("<div id=\"new_title_content\">" + data.content + "</div>");
-                    $title.replaceAll("#title");
-                    $content.replaceAll("#content")
+                    $title.replaceAll("#new_title_text");
+                    $content.replaceAll("#new_title_content")
 
                 }
             })
